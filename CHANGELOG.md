@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add userscript for focusing first name input on GSU campus directory.
 
 ## [1.0.1] - 2021-05-20
-- Fixed Springshare LibInsight dataset downloader.
+- Fixes Springshare LibInsight dataset downloader.
 
 ## [1.0.0] - 2021-05-19
 - Initial release.
