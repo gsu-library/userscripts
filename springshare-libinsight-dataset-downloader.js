@@ -18,19 +18,13 @@
 
    // Set this array to strings of the dataset IDs you do not want to download.
    const blacklist = [
-      // '4698',
-      // '4878',
+      '4698',
+      '4878',
       // '5011',
-      '7927',
-      '22125',
-      '22124',
-      '22126',
-      '22123',
-      '22122'
+      '7927'
    ];
    let datasetsRows;
    let datasetCounts = [];
-
 
    // Process dataset ids and counts. Add menu item to download reports.
    if(datasetsRows = document.querySelectorAll('#all-datasets tr')) {
@@ -53,6 +47,10 @@
       downloadLink.text = 'Download All Reports';
       let adminMenu = document.querySelector('#li-admin-navbar-manage').parentNode.querySelector('div');
       adminMenu.appendChild(downloadLink);
+      let startDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
+      let startDateFormatted = startDate.toLocaleDateString('en-us', { month: 'short' });
+      startDateFormatted += ' ' + startDate.toLocaleDateString('en-us', { day: '2-digit' });
+      startDateFormatted += ' ' + startDate.toLocaleDateString('en-us', { year: 'numeric' });
 
 
       // Download reports.
@@ -68,7 +66,7 @@
                '&dataset_type=1' +
                '&user_level=1' +
                '&total_count=' + dataset.count +
-               '&from=Jan 01 0000' +
+               '&from=' + startDateFormatted +
                '&to=Dec 31 9999' +
                '&filters[day_limit]=21' +
                '&filters[hr_start]=0' +
