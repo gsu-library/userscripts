@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.0] - 2024-08-13
+### Springshare LibInsight Dataset Downloader
+- Update script to download dataset if less then 10000 records.
+- Add script to queue the export if more than 10000 records.
+
 ## [3.0.0] - 2022-12-14
 ### SharePoint Permission Link
 - Add userscript that adds a site permission link on the right ribbon of SharePoint sites.

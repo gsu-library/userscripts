@@ -3,7 +3,7 @@ Code Repository: https://github.com/gsu-library/userscripts
 Author: Matt Brooks <mbrooks34@gsu.edu>  
 Date Created: 2021-05-19  
 License: [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html)  
-Version: 3.0.0
+Version: 4.0.0
 
 ## Description
 UserScripts used by GSU Library.
