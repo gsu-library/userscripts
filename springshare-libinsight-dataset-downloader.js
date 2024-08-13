@@ -18,15 +18,10 @@
 
    // Set this array to strings of the dataset IDs you do not want to download.
    const blacklist = [
-       // '4698',
-       // '4878',
+       '4698',
+       '4878',
        // '5011',
        '7927',
-       "22125",
-       "22124",
-       "22126",
-       "22123",
-       "22122",
    ];
    const maxRecords = 10000;
    let datasetsRows;
