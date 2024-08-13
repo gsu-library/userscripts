@@ -121,8 +121,7 @@
            '&filters[day_limit]=21' +
            '&filters[hr_start]=0' +
            '&filters[hr_end]=24' +
-           '&filters[sort]=date-desc'
-
+           '&filters[sort]=date-desc';
        form.set("options", options);
 
        fetch(url, {
