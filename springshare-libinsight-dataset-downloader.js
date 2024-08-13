@@ -3,7 +3,7 @@
 // @namespace   https://github.com/gsu-library/
 // @author      mbrooks34@gsu.edu
 // @license     GPLv3
-// @version     2.0.0
+// @version     3.0.0
 // @description Adds a download all reports item to the admin menu on the datasets page in LibInsight Lite.
 // @match       https://gsu.libinsight.com/admin/all
 // @grant       none
