@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Springshare LibInsight Dataset Downloader
 - Update script to download dataset if less then 10000 records.
 - Add script to queue the export if more than 10000 records.
+- Update blacklist.
 
 ## [3.0.0] - 2022-12-14
 ### SharePoint Permission Link
