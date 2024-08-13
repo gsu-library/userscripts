@@ -14,74 +14,120 @@
 // ==/UserScript==
 
 (() => {
-   'use strict';
+   "use strict";
 
    // Set this array to strings of the dataset IDs you do not want to download.
    const blacklist = [
-      '4698',
-      '4878',
-      // '5011',
-      '7927'
+       // '4698',
+       // '4878',
+       // '5011',
+       '7927',
+       "22125",
+       "22124",
+       "22126",
+       "22123",
+       "22122",
    ];
+   const maxRecords = 10000;
    let datasetsRows;
    let datasetCounts = [];
 
    // Process dataset ids and counts. Add menu item to download reports.
-   if(datasetsRows = document.querySelectorAll('#all-datasets tr')) {
-      let dataRows = [].slice.call(datasetsRows, 2);
+   if ((datasetsRows = document.querySelectorAll("#all-datasets tr"))) {
+       let dataRows = [].slice.call(datasetsRows, 2);
 
-      dataRows.forEach(row => {
-         datasetCounts.push({
-            id: row.childNodes[1].textContent,
-            count: row.childNodes[7].textContent.replace(',', '')
-         });
-      });
+       dataRows.forEach((row) => {
+           datasetCounts.push({
+               id: row.childNodes[1].textContent,
+               count: row.childNodes[7].textContent.replace(",", ""),
+           });
+       });
 
-      datasetCounts = datasetCounts.filter(dataset => !blacklist.includes(dataset.id));
+       datasetCounts = datasetCounts.filter(
+           (dataset) => !blacklist.includes(dataset.id)
+       );
 
+       // Create menu item.
+       let downloadLink = document.createElement("a");
+       downloadLink.setAttribute("class", "dropdown-item");
+       downloadLink.setAttribute("href", "#");
+       downloadLink.text = "Download All Reports";
+       let adminMenu = document
+           .querySelector("#li-admin-navbar-manage")
+           .parentNode.querySelector("div");
+       adminMenu.appendChild(downloadLink);
 
-      // Create menu item.
-      let downloadLink = document.createElement('a');
-      downloadLink.setAttribute('class', 'dropdown-item');
-      downloadLink.setAttribute('href', '#');
-      downloadLink.text = 'Download All Reports';
-      let adminMenu = document.querySelector('#li-admin-navbar-manage').parentNode.querySelector('div');
-      adminMenu.appendChild(downloadLink);
-      let startDate = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
-      let startDateFormatted = startDate.toLocaleDateString('en-us', { month: 'short' });
-      startDateFormatted += ' ' + startDate.toLocaleDateString('en-us', { day: '2-digit' });
-      startDateFormatted += ' ' + startDate.toLocaleDateString('en-us', { year: 'numeric' });
+       // Download reports.
+       downloadLink.onclick = (e) => {
+           e.preventDefault();
+           e.stopPropagation();
 
+           datasetCounts.forEach((dataset) => {
+               // Download report if number of records less than max records
+               if (dataset.count < maxRecords) {
+                   downloadReport(dataset);
+               }
+               else // Queue report if number of records more than max records
+               {
+                   queueReport(dataset);
+               }
+           });
+       };
+   }
 
-      // Download reports.
-      downloadLink.onclick = e => {
-         e.preventDefault();
-         e.stopPropagation();
+   function downloadReport(dataset)
+   {
+       let url = 'https://gsu.libinsight.com/admin/custom-dataset/' + dataset.id + '/export' +
+          '?filters[page]=1' +
+          '&iid=294' +
+          '&dataset_id=' + dataset.id +
+          '&dataset_type=1' +
+          '&user_level=1' +
+          '&total_count=' + dataset.count +
+          '&from=Jan 01 0000' +
+          '&to=Dec 31 9999' +
+          '&filters[day_limit]=21' +
+          '&filters[hr_start]=0' +
+          '&filters[hr_end]=24' +
+          '&filters[sort]=date-desc';
 
-         datasetCounts.forEach(dataset => {
-            let url = 'https://gsu.libinsight.com/admin/custom-dataset/' + dataset.id + '/export' +
-               '?filters[page]=1' +
-               '&iid=294' +
-               '&dataset_id=' + dataset.id +
-               '&dataset_type=1' +
-               '&user_level=1' +
-               '&total_count=' + dataset.count +
-               '&from=' + startDateFormatted +
-               '&to=Dec 31 9999' +
-               '&filters[day_limit]=21' +
-               '&filters[hr_start]=0' +
-               '&filters[hr_end]=24' +
-               '&filters[sort]=date-desc';
+       setTimeout(() => {
+          let a = document.createElement('a');
+          a.href = url;
+          document.body.appendChild(a);
+          a.setAttribute('target', '_blank');
+          a.click();
+          a.remove();
+       }, 100);
+   }
 
-            setTimeout(() => {
-               let a = document.createElement('a');
-               a.href = url;
-               document.body.appendChild(a);
-               a.setAttribute('target', '_blank');
-               a.click();
-               a.remove();
-            }, 100);
-         });
-      }
+   function queueReport(dataset)
+   {
+       let url = "https://gsu.libinsight.com/admin/reports/" + dataset.id + "/add";
+       let form = new FormData();
+       form.set("name", "Dataset-" + dataset.id + "-" + new Date().toISOString());
+       form.set("dataset_type", 1);
+       form.set("record_count", dataset.count);
+       form.set("date_range", "Custom Date Range");
+
+       let options = '?filters[page]=1' +
+           '&iid=294' +
+           '&dataset_id=' + dataset.id +
+           '&dataset_type=1' +
+           '&user_level=1' +
+           '&total_count=' + dataset.count +
+           '&from=Jan 01 0000' +
+           '&to=Dec 31 9999' +
+           '&filters[day_limit]=21' +
+           '&filters[hr_start]=0' +
+           '&filters[hr_end]=24' +
+           '&filters[sort]=date-desc'
+
+       form.set("options", options);
+
+       fetch(url, {
+           method: "POST",
+           body: form,
+       });
    }
 })();
