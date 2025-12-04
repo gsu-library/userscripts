@@ -3,9 +3,9 @@
 // @namespace   https://github.com/gsu-library/
 // @author      mbrooks34@gsu.edu
 // @license     GPLv3
-// @version     1.0.0
+// @version     1.1.0
 // @description Focus first name input on campus directory page.
-// @match       https://campusdirectory.gsu.edu/
+// @match       https://campusdirectory.gsu.edu/*
 // @grant       none
 // @downloadURL https://github.com/gsu-library/userscripts/raw/master/gsu-campus-directory.js
 // @updateURL   https://github.com/gsu-library/userscripts/raw/master/gsu-campus-directory.js
@@ -16,9 +16,10 @@
 (() => {
    'use strict';
 
-   let input;
+   let inputs = document.querySelectorAll('input[type="text"]');
 
-   if(input = document.querySelector('#fn')) {
+   // Focus the last visible/displayed input box.
+   inputs.foreach(input => {
       input.focus();
-   }
+   });
 })();
