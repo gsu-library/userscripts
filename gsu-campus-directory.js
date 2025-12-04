@@ -3,7 +3,7 @@
 // @namespace   https://github.com/gsu-library/
 // @author      mbrooks34@gsu.edu
 // @license     GPLv3
-// @version     1.0.0
+// @version     1.1.0
 // @description Focus first name input on campus directory page.
 // @match       https://campusdirectory.gsu.edu/*
 // @grant       none
